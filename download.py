@@ -20,15 +20,15 @@ def get_groups(full: bool = False) -> list[DataGroups]:
     See nymeria/definitions.py GroupDefs for the files included by each group.
     """
     return [
-        DataGroups.LICENSE,
+        # DataGroups.LICENSE,
         DataGroups.metadata_json,
         DataGroups.body_motion,
         DataGroups.recording_head,
         DataGroups.recording_head_data_data_vrs,
-        DataGroups.recording_lwrist,
-        DataGroups.recording_rwrist,
-        DataGroups.recording_observer,
-        DataGroups.recording_observer_data_data_vrs,
+        # DataGroups.recording_lwrist,
+        # DataGroups.recording_rwrist,
+        # DataGroups.recording_observer,
+        # DataGroups.recording_observer_data_data_vrs,
         DataGroups.narration_motion_narration_csv,
         DataGroups.narration_atomic_action_csv,
         DataGroups.narration_activity_summarization_csv,

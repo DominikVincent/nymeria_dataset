@@ -100,9 +100,9 @@ class NymeriaDataProvider(NymeriaDataProviderConfig):
             x
             for x in [
                 self.recording_head,
-                self.recording_observer,
-                self.recording_lwrist,
-                self.recording_rwrist,
+                # self.recording_observer,
+                # self.recording_lwrist,
+                # self.recording_rwrist,
             ]
             if x is not None
         ]
@@ -135,7 +135,7 @@ class NymeriaDataProvider(NymeriaDataProviderConfig):
 
     def get_synced_rgb_videos(self, t_ns_global: int) -> dict[str, any]:
         data = {}
-        for rec in [self.recording_head, self.recording_observer]:
+        for rec in [self.recording_head]:
             if rec is None and not rec.has_rgb:
                 continue
 
@@ -198,10 +198,13 @@ class NymeriaDataProvider(NymeriaDataProviderConfig):
         ):
             T_Wd_Hx = T_Wd_Hd @ self.T_Hd_Hx(t_ns_global)
             t_us = t_ns_global / 1e3
-            skel, skin = self.body_dp.get_posed_skeleton_and_skin(t_us, T_W_Hx=T_Wd_Hx)
+            skel, skin, skel_momentum = self.body_dp.get_posed_skeleton_and_skin(t_us, T_W_Hx=T_Wd_Hx)
             data["xsens"] = skel
             if skin is not None:
                 data["momentum"] = skin
+                
+            if skel_momentum is not None:
+                data["joints_momentum"] = skel_momentum
         return data
 
     def __compute_xsens_to_aria_alignment(self) -> None:

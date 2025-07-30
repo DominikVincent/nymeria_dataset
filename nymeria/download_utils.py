@@ -232,20 +232,26 @@ class DownloadManager:
         # populate confirmation msg
         msg = "\t" + "\n\t".join([x.value for x in selected_groups])
         free_disk_gb = shutil.disk_usage(self.out_rootdir).free / (2**30)
-        confirm = (
-            input(
-                f"Download summary\n"
+        print(f"Download summary\n"
                 f"  Output rootdir: {self.out_rootdir}\n"
                 f"  Number sequences: {num_seqs}\n"
                 f"  Total memory (GB): {total_gb}\n"
                 f"  Available free disk space (GB): {free_disk_gb}\n"
-                f"  Selected data groups:\n{msg}\n"
-                f"Proceed: [y/n] "
-            ).lower()
-            == "y"
-        )
-        if not confirm:
-            exit(1)
+                f"  Selected data groups:\n{msg}\n")
+        # confirm = (
+        #     input(
+        #         f"Download summary\n"
+        #         f"  Output rootdir: {self.out_rootdir}\n"
+        #         f"  Number sequences: {num_seqs}\n"
+        #         f"  Total memory (GB): {total_gb}\n"
+        #         f"  Available free disk space (GB): {free_disk_gb}\n"
+        #         f"  Selected data groups:\n{msg}\n"
+        #         f"Proceed: [y/n] "
+        #     ).lower()
+        #     == "y"
+        # )
+        # if not confirm:
+        #     exit(1)
         return selected_groups
 
     def __logging(self, **kwargs) -> None:

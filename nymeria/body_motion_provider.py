@@ -176,6 +176,8 @@ class BodyDataProvider:
             skel_state: torch.Tensor = pym.geometry.model_parameters_to_skeleton_state(
                 self.character, motion
             )
+            joints_momentum = skel_state[:, :3]
+            
             skin_momentum: torch.Tensor = self.character.skin_points(skel_state)
 
             if T_W_Wx is not None:
@@ -186,10 +188,14 @@ class BodyDataProvider:
 
                 R_W_Wm = R_W_Wx @ self._A_Wx_Wm
                 skin_momentum = (R_W_Wm @ skin_momentum.T + t_W_Wx).T
+                
+                joints_momentum = (R_W_Wm @ joints_momentum.T + t_W_Wx).T
             else:
                 skin_momentum = (self._A_Wx_Wm @ skin_momentum.T).T
+                
+                joints_momentum = (self._A_Wx_Wm @ joints_momentum.T).T
 
-        return skel_xsens, skin_momentum
+        return skel_xsens, skin_momentum, joints_momentum
 
     @staticmethod
     def qt_to_se3(part_qWXYZ: np.ndarray, part_tXYZ: np.ndarray) -> list[SE3]:
